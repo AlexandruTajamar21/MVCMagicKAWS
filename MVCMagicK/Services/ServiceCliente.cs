@@ -38,9 +38,9 @@ namespace MVCMagicK.Services
                 string json = JsonConvert.SerializeObject(model);
                 StringContent content =
                     new StringContent(json, Encoding.UTF8, "application/json");
-                string request = "/api/authorization/ValidarUsuario";
+                string request = "/api/Authorization/ValidarUsuario";
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PostAsync(this.UrlApi + request, content);
                 if (response.IsSuccessStatusCode)
                 {
                     string data = await response.Content.ReadAsStringAsync();
@@ -109,7 +109,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/VerificarCompras/" + idUsuario;
             List<ResumenCompra> compras =
-                await this.CallApiAsync<List<ResumenCompra>>(request, token);
+                await this.CallApiAsync<List<ResumenCompra>>(this.UrlApi + request, token);
             return compras;
         }
 
@@ -117,7 +117,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/User/GetUsuariosAll";
             List<Usuario> users =
-                await this.CallApiAsync<List<Usuario>>(request,token);
+                await this.CallApiAsync<List<Usuario>>(this.UrlApi + request, token);
             return users;
         }
 
@@ -125,7 +125,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/User/ExisteUsuario/" + correo;
             Boolean existe =
-                await this.CallApiAsync<Boolean>(request);
+                await this.CallApiAsync<Boolean>(this.UrlApi + request);
             return existe;
         }
 
@@ -145,7 +145,7 @@ namespace MVCMagicK.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(request, content);
+                HttpResponseMessage response = await client.PostAsync(this.UrlApi + request, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -166,7 +166,7 @@ namespace MVCMagicK.Services
                 client.BaseAddress = new Uri(this.UrlApi);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
-                HttpResponseMessage response = await client.DeleteAsync(request);
+                HttpResponseMessage response = await client.DeleteAsync(this.UrlApi + request);
             }
         }
         public async Task DeleteUser(int idUsuario, string token)
@@ -178,13 +178,13 @@ namespace MVCMagicK.Services
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
-                HttpResponseMessage response = await client.DeleteAsync(request);
+                HttpResponseMessage response = await client.DeleteAsync(this.UrlApi + request);
             }
         }
 
         public async Task<List<ViewProducto>> GetItemsHome()
         {
-            string request = "/api/Item";
+            string request = "api/Item";
             List<ViewProducto> items =
                 await this.CallApiAsync<List<ViewProducto>>(request);
             return items;
@@ -216,7 +216,7 @@ namespace MVCMagicK.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(request, content);
+                HttpResponseMessage response = await client.PostAsync(this.UrlApi + request, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -233,7 +233,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/StockItemUsuario/" + userId + "/"+idProducto;
             List<VW_ItemsUsuario_Listados> items =
-                await this.CallApiAsync<List<VW_ItemsUsuario_Listados>>(request,token);
+                await this.CallApiAsync<List<VW_ItemsUsuario_Listados>>(this.UrlApi + request, token);
             return items;
         }
 
@@ -241,7 +241,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/ItemsHomeFiltro/" + filtro;
             List<ViewProducto> items =
-                await this.CallApiAsync<List<ViewProducto>>(request);
+                await this.CallApiAsync<List<ViewProducto>>(this.UrlApi + request);
             return items;
         }
 
@@ -249,7 +249,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/StockItem/" + idProducto;
             List<VW_ItemsUsuario_Listados> items =
-                await this.CallApiAsync<List<VW_ItemsUsuario_Listados>>(request);
+                await this.CallApiAsync<List<VW_ItemsUsuario_Listados>>(this.UrlApi + request);
             return items;
         }
 
@@ -257,7 +257,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/GetItemId/" + idCarta;
             Item item =
-                await this.CallApiAsync<Item>(request);
+                await this.CallApiAsync<Item>(this.UrlApi + request);
             return item;
         }
 
@@ -278,7 +278,7 @@ namespace MVCMagicK.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync(request, content);
+                HttpResponseMessage response = await client.PutAsync(this.UrlApi + request, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -307,7 +307,7 @@ namespace MVCMagicK.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync(request, content);
+                HttpResponseMessage response = await client.PutAsync(this.UrlApi + request, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -342,22 +342,22 @@ namespace MVCMagicK.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(request, content);
+                HttpResponseMessage response = await client.PostAsync(this.UrlApi + request, content);
             }
         }
 
         public async Task<Usuario> GetPerfilUsuario(string token)
         {
-            string request = "api/user/perfilusuario";
+            string request = "api/User/PerfilUsuario";
             Usuario user =
-                await this.CallApiAsync<Usuario>(request, token);
+                await this.CallApiAsync<Usuario>(this.UrlApi + request, token);
             return user;
         }
         public async Task<Usuario> GetUsuarioId(string token, int id)
         {
             string request = "/api/User/UsuariobyId/" + id;
             Usuario user =
-                await this.CallApiAsync<Usuario>(request, token);
+                await this.CallApiAsync<Usuario>(this.UrlApi + request, token);
             return user;
         }
 
@@ -365,7 +365,7 @@ namespace MVCMagicK.Services
         {
             string request = "/api/Item/ItemsUsuario/" + idUser;
             List<ViewProductoUsuario> items =
-                await this.CallApiAsync<List<ViewProductoUsuario>>(request,token);
+                await this.CallApiAsync<List<ViewProductoUsuario>>(this.UrlApi + request, token);
             return items;
         }
 

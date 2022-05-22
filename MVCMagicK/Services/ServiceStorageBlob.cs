@@ -20,7 +20,7 @@ namespace MVCMagicK.Services
         {
 
             this.awsClient = client;
-            this.bucketName = configuration.GetValue<string>("AWS:imagenes-proyecto-aws");
+            this.bucketName = configuration.GetValue<string>("AWS:bucketcartas");
         }
         public async Task<bool> UploadFileAsync(Stream stream, string fileName)
         {

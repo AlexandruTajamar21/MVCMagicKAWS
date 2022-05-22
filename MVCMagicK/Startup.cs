@@ -1,3 +1,4 @@
+using Amazon.S3;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -27,15 +28,10 @@ namespace MVCMagicK
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => options.AddPolicy("AllowOrigin", x => x.AllowAnyOrigin()));
-            string urlApi =
-            this.Configuration.GetValue<string>("ApiUrls:ApiCartas");
-            string azureKeys = this.Configuration.GetConnectionString("storageAWS");
-            ServiceCliente serviceApiEmpleados =
-                new ServiceCliente(urlApi);
-            services.AddTransient<ServiceCliente>
-                (x => serviceApiEmpleados);
-            BlobServiceClient blobService = new BlobServiceClient(azureKeys);
-            services.AddTransient<BlobServiceClient>(x => blobService);
+            string urlApi = this.Configuration.GetValue<string>("ApiUrls:ApiCartas");
+            ServiceCliente serviceApiCartas = new ServiceCliente(urlApi);
+            services.AddTransient<ServiceCliente>(x => serviceApiCartas);
+            services.AddAWSService<IAmazonS3>();
             services.AddTransient<ServiceStorageBlob>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
