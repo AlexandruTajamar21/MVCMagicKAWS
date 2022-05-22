@@ -1,0 +1,51 @@
+﻿@model IEnumerable<NugMagicK.Models.Item>
+
+@{
+    ViewData["Title"] = "Carrito";
+}
+<img id="imgFondo" src="~/Fondos/Fondo2.jpg" />
+@if (Model != null)
+{
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Vendedor
+            </th>
+            <th>
+                Producto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th class="col-2"></th>
+            <th class="col-1"></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)€
+                </td>
+                <td class="col-2"><img src="https://storagemagickape.blob.core.windows.net/cartas/@item.Imagen" style="width:100px;height:150px"/></td>
+                <td class="col-1">
+                    <a class="btn btn-danger" asp-controller="Home" asp-action="BorrarElementoCarrito" asp-route-idCarta="@item.IdItem">Eliminar</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+    <a asp-controller="Home" asp-action="ComprarCarrito" class="btn btn-success">Finalizar Compra</a>
+}
+else
+{
+    <h3 style="justify-content:center"> No tienes Elementos en el carrito</h3>
+}

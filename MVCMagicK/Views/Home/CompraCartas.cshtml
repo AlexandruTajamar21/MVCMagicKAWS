@@ -1,0 +1,125 @@
+﻿@model IEnumerable<NugMagicK.Models.VW_ItemsUsuario_Listados>
+
+@{
+    ViewData["Title"] = "CompraCartas";
+}
+<img id="imgFondo" src="~/Fondos/Fondo2.jpg" />
+<div class="row row-cols-4 justify-content-center">
+    <div class="col-12">
+        <div class="card mb-3 mt-5" style=" background-color:gainsboro">
+            <div class="row g-0">
+                <div class="col-sm-12 col-md-6 col-lg-5 d-flex justify-content-center">
+                    <img style="object-fit: cover; height:400px;width:300px" src="https://storagemagickape.blob.core.windows.net/cartas/@Model.First().Imagen" class="img-fluid border border-2 border-dark" alt="Ayaka">
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-5 text-sm-center text-md-start d-flex align-items-center">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.First().IdProducto</h5>
+                        <h6>@Model.First().Descripcion</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Vendedor
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                Estado
+            </th>
+            @if (Context.User.Identity.IsAuthenticated != false)
+            {
+                <th></th>
+                <th></th>
+                @if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+                {
+                    <th></th>
+                }
+            }
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                @if (User.FindFirstValue(ClaimTypes.NameIdentifier) != item.IdUser.ToString())
+                {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)€
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                <td class="col-1">
+                    <a asp-controller="Home" asp-action="Comprar" asp-route-idCarta="@item.IdItem" asp-route-idVendedor="@item.IdUser" asp-route-idProducto="@item.IdProducto" class="btn btn-success">Comprar</a>
+                </td>
+                <td class="col-1">
+                    <a asp-controller="Home" asp-action="InsertarCarrito" asp-route-idItem="@item.IdItem" class="btn btn-success">Añadir al Carrito</a>
+                </td>
+                @if (User.FindFirstValue(ClaimTypes.Role)== "Admin")
+                {
+                    <td class="col-1">
+                        <a asp-controller="Home" asp-action="BorrarItemCompras" asp-route-idItem="@item.IdItem" asp-route-idProducto="@item.IdProducto" class="btn btn-danger">Eliminar</a>
+                    </td>
+                }
+            }
+        </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)€
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    @if (Context.User.Identity.IsAuthenticated != false)
+                    {
+                        <td>
+                            <a asp-controller="Home" asp-action="Comprar" asp-route-idCarta="@item.IdItem" asp-route-idVendedor="@item.IdUser" asp-route-idProducto="@item.IdProducto" class="btn btn-success">Comprar</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Home" asp-action="InsertarCarrito" asp-route-idItem="@item.IdItem" class="btn btn-success">Añadir al Carrito</a>
+                        </td>
+                    }
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+@*@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".anadirCarrito").click(function () {
+                var idItem = $(this).attr("name");
+                var url = "@Url.Action("InsertCarrito", "Home")";
+                var data = { idItem: idItem.toString(), idProducto: idProducto };
+                $.post(url, data).then(function (data) {
+                    if (data.result == 'Redirect') {
+                        window.location = data.url;
+                    }
+                });
+            });
+        });
+    </script>*@

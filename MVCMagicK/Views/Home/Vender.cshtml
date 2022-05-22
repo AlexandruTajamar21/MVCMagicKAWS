@@ -1,0 +1,44 @@
+﻿@model NugMagicK.Models.ViewProducto
+
+@{
+    ViewData["Title"] = "Vender";
+}
+<img id="imgFondo" src="~/Fondos/Fondo2.jpg" />
+<div class="row mt-2" id="outPopUp">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input class="form-control" name="nombre" placeholder="Nombre" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="producto" placeholder="Producto" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="number" name="precio" placeholder="Precio" />
+            </div>
+            <div class="form-group">
+                <input class="input-file" type="file" name="imagen" placeholder="Imagen" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="Descripcion" placeholder="Descripcion" />
+            </div>
+            <div>
+                <button class="btn btn-info" type="submit">Subir</button>
+            </div>
+            <div class="form-group">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Exit</a>
+            </div>
+            <h1 style="color:red">@ViewData["MENSAJE"]</h1>
+        </form>
+    </div>
+</div>
+<style>
+    #outPopUp {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
