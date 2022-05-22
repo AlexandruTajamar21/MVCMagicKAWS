@@ -28,8 +28,8 @@ namespace MVCMagicK
         {
             services.AddCors(options => options.AddPolicy("AllowOrigin", x => x.AllowAnyOrigin()));
             string urlApi =
-            this.Configuration.GetValue<string>("ApiUrls:ApiAlumnos");
-            string azureKeys = this.Configuration.GetConnectionString("storageAzure");
+            this.Configuration.GetValue<string>("ApiUrls:ApiCartas");
+            string azureKeys = this.Configuration.GetConnectionString("storageAWS");
             ServiceCliente serviceApiEmpleados =
                 new ServiceCliente(urlApi);
             services.AddTransient<ServiceCliente>
